@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Toggle translatom",
+        "command": "translatom:toggle"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "translatom",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "translatom:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
