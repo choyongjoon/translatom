@@ -1,0 +1,15 @@
+{
+    "extends" : [
+      "eslint:recommended",
+      "standard"
+    ],
+    "plugins": [
+      "jasmine"
+    ],
+    "env": {
+      "jasmine": true
+    },
+    "globals": {
+      "atom": false
+    }
+}
