@@ -1,9 +1,7 @@
-'use babel';
-
-import TranslatomView from '../lib/translatom-view';
+'use babel'
 
 describe('TranslatomView', () => {
   it('has one valid test', () => {
-    expect('life').toBe('life');
-  });
-});
+    expect('life').toBe('life')
+  })
+})

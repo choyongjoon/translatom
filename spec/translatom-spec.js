@@ -1,6 +1,8 @@
 'use babel'
 
-import Translatom from '../lib/translatom'
+import path from 'path'
+import fs from 'fs'
+import temp from 'temp'
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
@@ -8,66 +10,30 @@ import Translatom from '../lib/translatom'
 // or `fdescribe`). Remove the `f` to unfocus the block.
 
 describe('Translatom', () => {
-  let workspaceElement, activationPromise;
+  let editor, buffer, workspaceElement
 
-  beforeEach(() => {
-    workspaceElement = atom.views.getView(atom.workspace);
-    activationPromise = atom.packages.activatePackage('translatom');
-  });
+  beforeEach(async () => {
+    const directory = temp.mkdirSync()
+    atom.project.setPaths([directory])
+    workspaceElement = atom.views.getView(atom.workspace)
+    const filePath = path.join(directory, 'atom-whitespace.txt')
+    fs.writeFileSync(filePath, '')
+    fs.writeFileSync(path.join(directory, 'sample.txt'), 'Some text.\n')
 
-  describe('when the translatom:toggle event is triggered', () => {
-    it('hides and shows the modal panel', () => {
-      // Before the activation event the view is not on the DOM, and no panel
-      // has been created
-      expect(workspaceElement.querySelector('.translatom')).not.toExist();
+    editor = await atom.workspace.open(filePath)
+    buffer = editor.getBuffer()
+    await atom.packages.activatePackage('translatom')
+  })
 
-      // This is an activation event, triggering it will cause the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'translatom:toggle');
+  describe('when the editor is destroyed', () => {
+    beforeEach(() => editor.destroy())
 
-      waitsForPromise(() => {
-        return activationPromise;
-      });
+    it('does not leak subscriptions', async () => {
+      const { translatom } = atom.packages.getActivePackage('translatom').mainModule
+      expect(translatom.subscriptions.disposables.size).toBe(2)
 
-      runs(() => {
-        expect(workspaceElement.querySelector('.translatom')).toExist();
-
-        let translatomElement = workspaceElement.querySelector('.translatom');
-        expect(translatomElement).toExist();
-
-        let translatomPanel = atom.workspace.panelForItem(translatomElement);
-        expect(translatomPanel.isVisible()).toBe(true);
-        atom.commands.dispatch(workspaceElement, 'translatom:toggle');
-        expect(translatomPanel.isVisible()).toBe(false);
-      });
-    });
-
-    it('hides and shows the view', () => {
-      // This test shows you an integration test testing at the view level.
-
-      // Attaching the workspaceElement to the DOM is required to allow the
-      // `toBeVisible()` matchers to work. Anything testing visibility or focus
-      // requires that the workspaceElement is on the DOM. Tests that attach the
-      // workspaceElement to the DOM are generally slower than those off DOM.
-      jasmine.attachToDOM(workspaceElement);
-
-      expect(workspaceElement.querySelector('.translatom')).not.toExist();
-
-      // This is an activation event, triggering it causes the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'translatom:toggle');
-
-      waitsForPromise(() => {
-        return activationPromise;
-      });
-
-      runs(() => {
-        // Now we can test for view visibility
-        let translatomElement = workspaceElement.querySelector('.translatom');
-        expect(translatomElement).toBeVisible();
-        atom.commands.dispatch(workspaceElement, 'translatom:toggle');
-        expect(translatomElement).not.toBeVisible();
-      });
-    });
-  });
-});
+      await atom.packages.deactivatePackage('translatom')
+      expect(translatom.subscriptions.disposables).toBeNull()
+    })
+  })
+})
