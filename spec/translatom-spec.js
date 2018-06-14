@@ -1,6 +1,6 @@
-'use babel';
+'use babel'
 
-import Translatom from '../lib/translatom';
+import Translatom from '../lib/translatom'
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
