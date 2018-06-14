@@ -1,8 +1,11 @@
 'use babel'
 
 import path from 'path'
-import fs from 'fs'
+import fs from 'fs-plus'
 import temp from 'temp'
+
+import { unsplittedParagraphs, splittedParagraphs } from './texts'
+const { it, fit, ffit, beforeEach } = require('./async-spec-helpers') // eslint-disable-line no-unused-vars
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
@@ -19,7 +22,6 @@ describe('Translatom', () => {
     const filePath = path.join(directory, 'atom-whitespace.txt')
     fs.writeFileSync(filePath, '')
     fs.writeFileSync(path.join(directory, 'sample.txt'), 'Some text.\n')
-
     editor = await atom.workspace.open(filePath)
     buffer = editor.getBuffer()
     await atom.packages.activatePackage('translatom')
@@ -29,11 +31,23 @@ describe('Translatom', () => {
     beforeEach(() => editor.destroy())
 
     it('does not leak subscriptions', async () => {
-      const { translatom } = atom.packages.getActivePackage('translatom').mainModule
-      expect(translatom.subscriptions.disposables.size).toBe(2)
+      const translatom = atom.packages.getActivePackage('translatom').mainModule
+      expect(translatom.subscriptions.disposables.size).toBe(1)
 
       await atom.packages.deactivatePackage('translatom')
       expect(translatom.subscriptions.disposables).toBeNull()
+    })
+  })
+
+  describe("when the 'translatom:split-paragraphs' command is run", () => {
+    it('splits paragraph with LF and CRLF', () => {
+      buffer.setText(unsplittedParagraphs)
+      atom.commands.dispatch(workspaceElement, 'translatom:split-paragraphs')
+      expect(buffer.getText()).toBe(splittedParagraphs)
+
+      buffer.setText(unsplittedParagraphs.replace('\n', '\r\n'))
+      atom.commands.dispatch(workspaceElement, 'translatom:split-paragraphs')
+      expect(buffer.getText()).toBe(splittedParagraphs.replace('\n', '\r\n'))
     })
   })
 })
