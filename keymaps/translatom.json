@@ -1,5 +1,5 @@
 {
   "atom-workspace": {
-    "ctrl-alt-o": "translatom:toggle"
+    "ctrl-alt-s": "translatom:split-paragraphs"
   }
 }

@@ -2,8 +2,8 @@
   "context-menu": {
     "atom-text-editor": [
       {
-        "label": "Toggle translatom",
-        "command": "translatom:toggle"
+        "label": "Split Paragraphs",
+        "command": "translatom:split-paragraphs"
       }
     ]
   },
@@ -15,8 +15,8 @@
           "label": "translatom",
           "submenu": [
             {
-              "label": "Toggle",
-              "command": "translatom:toggle"
+              "label": "Split Paragraphs",
+              "command": "translatom:split-paragraphs"
             }
           ]
         }
