@@ -1,9 +1,5 @@
 'use babel'
 
-import path from 'path'
-import fs from 'fs-plus'
-import temp from 'temp'
-
 import { unsplittedParagraphs, splittedParagraphs } from './texts'
 const { it, fit, ffit, beforeEach } = require('./async-spec-helpers') // eslint-disable-line no-unused-vars
 
@@ -16,13 +12,8 @@ describe('Translatom', () => {
   let editor, buffer, workspaceElement
 
   beforeEach(async () => {
-    const directory = temp.mkdirSync()
-    atom.project.setPaths([directory])
     workspaceElement = atom.views.getView(atom.workspace)
-    const filePath = path.join(directory, 'atom-whitespace.txt')
-    fs.writeFileSync(filePath, '')
-    fs.writeFileSync(path.join(directory, 'sample.txt'), 'Some text.\n')
-    editor = await atom.workspace.open(filePath)
+    editor = await atom.workspace.open('')
     buffer = editor.getBuffer()
     await atom.packages.activatePackage('translatom')
   })
@@ -32,7 +23,7 @@ describe('Translatom', () => {
 
     it('does not leak subscriptions', async () => {
       const translatom = atom.packages.getActivePackage('translatom').mainModule
-      expect(translatom.subscriptions.disposables.size).toBe(2)
+      expect(translatom.subscriptions.disposables.size).toBe(3)
 
       await atom.packages.deactivatePackage('translatom')
       expect(translatom.subscriptions.disposables).toBeNull()
@@ -60,6 +51,27 @@ describe('Translatom', () => {
       buffer.setText(splittedParagraphs.replace('\n', '\r\n'))
       atom.commands.dispatch(workspaceElement, 'translatom:revert-paragraphs')
       expect(buffer.getText()).toBe(unsplittedParagraphs.replace('\n', '\r\n'))
+    })
+  })
+
+  describe("when the 'translatom:open-translation' command is run", () => {
+    it('open a new pane at right', () => {
+      buffer.setText(unsplittedParagraphs)
+      atom.commands.dispatch(workspaceElement, 'translatom:open-translation')
+      atom.commands.onDidDispatch(() => {
+        const panes = atom.workspace.getCenter().getPanes()
+        expect(panes.length).toBe(2)
+      })
+    })
+
+    it('cannot open translation more than once', () => {
+      buffer.setText(unsplittedParagraphs)
+      atom.commands.dispatch(workspaceElement, 'translatom:open-translation')
+      atom.commands.dispatch(workspaceElement, 'translatom:open-translation')
+      atom.commands.onDidDispatch(() => {
+        const panes = atom.workspace.getCenter().getPanes()
+        expect(panes.length).toBe(2)
+      })
     })
   })
 })

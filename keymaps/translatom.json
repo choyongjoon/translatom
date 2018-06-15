@@ -1,6 +1,7 @@
 {
   "atom-workspace": {
     "ctrl-alt-s": "translatom:split-paragraphs",
-    "ctrl-alt-r": "translatom:revert-paragraphs"
+    "ctrl-alt-r": "translatom:revert-paragraphs",
+    "ctrl-alt-o": "translatom:open-translation"
   }
 }

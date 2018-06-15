@@ -8,6 +8,10 @@
       {
         "label": "Revert Paragraphs",
         "command": "translatom:revert-paragraphs"
+      },
+      {
+        "label": "Open Translation",
+        "command": "translatom:open-translation"
       }
     ]
   },
@@ -25,6 +29,10 @@
             {
               "label": "Revert Paragraphs",
               "command": "translatom:revert-paragraphs"
+            },
+            {
+              "label": "Open Translation",
+              "command": "translatom:open-translation"
             }
           ]
         }
