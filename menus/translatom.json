@@ -4,6 +4,10 @@
       {
         "label": "Split Paragraphs",
         "command": "translatom:split-paragraphs"
+      },
+      {
+        "label": "Revert Paragraphs",
+        "command": "translatom:revert-paragraphs"
       }
     ]
   },
@@ -17,6 +21,10 @@
             {
               "label": "Split Paragraphs",
               "command": "translatom:split-paragraphs"
+            },
+            {
+              "label": "Revert Paragraphs",
+              "command": "translatom:revert-paragraphs"
             }
           ]
         }

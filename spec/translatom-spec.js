@@ -32,7 +32,7 @@ describe('Translatom', () => {
 
     it('does not leak subscriptions', async () => {
       const translatom = atom.packages.getActivePackage('translatom').mainModule
-      expect(translatom.subscriptions.disposables.size).toBe(1)
+      expect(translatom.subscriptions.disposables.size).toBe(2)
 
       await atom.packages.deactivatePackage('translatom')
       expect(translatom.subscriptions.disposables).toBeNull()
@@ -48,6 +48,18 @@ describe('Translatom', () => {
       buffer.setText(unsplittedParagraphs.replace('\n', '\r\n'))
       atom.commands.dispatch(workspaceElement, 'translatom:split-paragraphs')
       expect(buffer.getText()).toBe(splittedParagraphs.replace('\n', '\r\n'))
+    })
+  })
+
+  describe("when the 'translatom:revert-paragraphs' command is run", () => {
+    it('reverts paragraph with LF and CRLF', () => {
+      buffer.setText(splittedParagraphs)
+      atom.commands.dispatch(workspaceElement, 'translatom:revert-paragraphs')
+      expect(buffer.getText()).toBe(unsplittedParagraphs)
+
+      buffer.setText(splittedParagraphs.replace('\n', '\r\n'))
+      atom.commands.dispatch(workspaceElement, 'translatom:revert-paragraphs')
+      expect(buffer.getText()).toBe(unsplittedParagraphs.replace('\n', '\r\n'))
     })
   })
 })
