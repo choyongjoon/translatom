@@ -40,6 +40,12 @@ describe('Translatom', () => {
       atom.commands.dispatch(workspaceElement, 'translatom:split-paragraphs')
       expect(buffer.getText()).toBe(splittedParagraphs.replace('\n', '\r\n'))
     })
+
+    it('should be not splitted if it is already splitted', () => {
+      buffer.setText(splittedParagraphs)
+      atom.commands.dispatch(workspaceElement, 'translatom:split-paragraphs')
+      expect(buffer.getText()).toBe(splittedParagraphs)
+    })
   })
 
   describe("when the 'translatom:revert-paragraphs' command is run", () => {
@@ -51,6 +57,12 @@ describe('Translatom', () => {
       buffer.setText(splittedParagraphs.replace('\n', '\r\n'))
       atom.commands.dispatch(workspaceElement, 'translatom:revert-paragraphs')
       expect(buffer.getText()).toBe(unsplittedParagraphs.replace('\n', '\r\n'))
+    })
+
+    it('should be not reverted if it is already reverted', () => {
+      buffer.setText(splittedParagraphs)
+      atom.commands.dispatch(workspaceElement, 'translatom:split-paragraphs')
+      expect(buffer.getText()).toBe(splittedParagraphs)
     })
   })
 
