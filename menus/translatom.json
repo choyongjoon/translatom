@@ -10,8 +10,8 @@
         "command": "translatom:revert-paragraphs"
       },
       {
-        "label": "Open Translation",
-        "command": "translatom:open-translation"
+        "label": "Toggle Translatom",
+        "command": "translatom:toggle-translatom"
       }
     ]
   },
@@ -20,7 +20,7 @@
       "label": "Packages",
       "submenu": [
         {
-          "label": "translatom",
+          "label": "Translatom",
           "submenu": [
             {
               "label": "Split Paragraphs",
@@ -31,8 +31,8 @@
               "command": "translatom:revert-paragraphs"
             },
             {
-              "label": "Open Translation",
-              "command": "translatom:open-translation"
+              "label": "Toggle Translatom",
+              "command": "translatom:toggle-translatom"
             }
           ]
         }

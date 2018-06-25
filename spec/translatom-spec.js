@@ -66,10 +66,10 @@ describe('Translatom', () => {
     })
   })
 
-  describe("when the 'translatom:open-translation' command is run", () => {
+  describe("when the 'translatom:toggle-translatom' command is run", () => {
     it('open a new pane at right', () => {
       buffer.setText(unsplittedParagraphs)
-      atom.commands.dispatch(workspaceElement, 'translatom:open-translation')
+      atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
       atom.commands.onDidDispatch(() => {
         const panes = atom.workspace.getCenter().getPanes()
         expect(panes.length).toBe(2)
@@ -78,8 +78,8 @@ describe('Translatom', () => {
 
     it('cannot open translation more than once', () => {
       buffer.setText(unsplittedParagraphs)
-      atom.commands.dispatch(workspaceElement, 'translatom:open-translation')
-      atom.commands.dispatch(workspaceElement, 'translatom:open-translation')
+      atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
+      atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
       atom.commands.onDidDispatch(() => {
         const panes = atom.workspace.getCenter().getPanes()
         expect(panes.length).toBe(2)

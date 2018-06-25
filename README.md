@@ -15,7 +15,7 @@ Translate efficiently. Focus on writing, not searching.
 | ------- | ------ | --------------- |
 | `translatom:split-paragraphs`  | Split paragraphs into lines.         | `ctrl-alt-s` |
 | `translatom:revert-paragraphs` | Revert splitted lines to paragraphs. | `ctrl-alt-r` |
-| `translatom:open-translation`  | Open side-by-side view.              | `ctrl-alt-o` |
+| `translatom:toggle-translatom` | Toggle translatom features.          | `ctrl-alt-t` |
 
 ## Planed Features
 - Instant search
