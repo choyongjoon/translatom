@@ -67,23 +67,24 @@ describe('Translatom', () => {
   })
 
   describe("when the 'translatom:toggle-translatom' command is run", () => {
-    it('open a new pane at right', () => {
+    it('opens a new pane at right if there is only one pane', () => {
       buffer.setText(unsplittedParagraphs)
+
       atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
-      atom.commands.onDidDispatch(() => {
-        const panes = atom.workspace.getCenter().getPanes()
-        expect(panes.length).toBe(2)
-      })
+      // TODO: check copied
+      // TODO: check sync is on
+      atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
+      // TODO: check sync is off
     })
 
-    it('cannot open translation more than once', () => {
+    it("don't open a pane if there are more than two panes", async () => {
       buffer.setText(unsplittedParagraphs)
+      await atom.workspace.open('', { split: 'right' })
+
       atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
+      // TODO: check sync is on
       atom.commands.dispatch(workspaceElement, 'translatom:toggle-translatom')
-      atom.commands.onDidDispatch(() => {
-        const panes = atom.workspace.getCenter().getPanes()
-        expect(panes.length).toBe(2)
-      })
+      // TODO: check sync is off
     })
   })
 })
