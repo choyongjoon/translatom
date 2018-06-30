@@ -381,6 +381,10 @@ esutils@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
 
+etch@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/etch/-/etch-0.14.0.tgz#c446db1a619f96b011987b214d1bf2d907cf57d0"
+
 external-editor@^2.0.4:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/external-editor/-/external-editor-2.2.0.tgz#045511cfd8d133f3846673d1047c154e214ad3d5"
