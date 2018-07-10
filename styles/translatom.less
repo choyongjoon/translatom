@@ -17,7 +17,48 @@ atom-text-editor {
     display: flex;
 
     .input-search {
-      width: 1;
+      flex: 1;
+    }
+  }
+
+  .search-list-container {
+    padding-top: 0;
+  }
+
+  .search-list {
+    .search-result {
+      display: flex;
+
+      .result-left {
+        overflow: hidden;
+        flex: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .result-right {
+        flex: 1.2;
+        min-width: 0;
+
+        .right-item {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .description {
+          margin-left: 10px;
+        }
+      }
+      .result-index {
+        width: 16px;
+
+        .numbering {
+          display: inline-block;
+          margin-top: 3px;
+          width: 16px;
+          text-align: center;
+          line-height: 16px;
+        }
+      }
     }
   }
 }
